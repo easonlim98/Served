@@ -14,54 +14,102 @@ import {
   Dimensions,
   Platform,
   ActivityIndicator,
+  Touchable,
 } from 'react-native';
 import Colors from "../constant/Colors";
 import Feather from 'react-native-vector-icons/Feather';
 
-const RegisterScreen = () => {
+const RegisterScreen = props => {
+
+const { navigation, route } = props;
+
+const terms_of_use = () => {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+
+      }}
+    >
+      <Text style={{ fontSize: 14, fontWeight: 700, textDecorationLine: 'underline' }}>Terms of Use</Text>
+    </TouchableOpacity>
+  );
+}
+
+const privacy_policy = () => {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        
+      }}
+    >
+      <Text style={{ fontSize: 14, fontWeight: 700, textDecorationLine: 'underline' }}>Privacy Policy</Text>
+    </TouchableOpacity>
+  );
+}
 
 return (
   <View style={[styles.container]}>
-
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ padding: 20 }}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Login');
+        }}
+      >
+        <Feather name={'arrow-left'} size={40} />
+      </TouchableOpacity>
+    </View>
+    <View style={{ flex: 2, alignItems: 'center' }}>
       <View style={{ justifyContent: 'center', paddingVertical: 40}}>
-      <Text style={{ fontSize: 14, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Create Account</Text>
+      <Text style={{ fontSize: 24, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Create Your Account</Text>
       </View>
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Feather name={'mail'} size={20} />
-          <Text style={{ fontSize: 14, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Email</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
+          <Feather name={'user'} size={25} />
+          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Full Name</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
         />
       </View>
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Feather name={'key'} size={20} />
-          <Text style={{ fontSize: 14, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Password</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
+          <Feather name={'mail'} size={25} />
+          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Email</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
         />
-        <View style={{ alignItems: 'flex-end' }}>
-          <TouchableOpacity style={{ paddingVertical: 10 }}>
-            <Text style={{ fontSize: 14, fontWeight: 700, fontColor: Colors.black }}>Forget Password?</Text>
-          </TouchableOpacity>
+      </View>
+      <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
+          <Feather name={'key'} size={25} />
+          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Password</Text>
         </View>
+        <TextInput
+          style={[styles.textInput]}
+        />
+      </View>
+      <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
+          <Feather name={'key'} size={25} />
+          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Password</Text>
+        </View>
+        <TextInput
+          style={[styles.textInput]}
+        />
+      </View>
+      <View style={{ justifyContent: 'center', paddingVertical: 10, width: '70%' }}>
+        <Text style={{ fontSize: 14, fontWeight: 700, paddingVertical: 5 }}>
+          By registering, you confirm that you accept our {terms_of_use()} and {privacy_policy()}.
+        </Text>
       </View>
 
       <View style={{ paddingVertical: 20 }}>
         <TouchableOpacity
-          style={[styles.loginButton]}
+          style={[styles.registerButton]}
         >
-          <Text style={{ fontSize: 24, fontWeight: 700, fontColor: Colors.black }}>LOGIN</Text>
+          <Text style={{ fontSize: 24, fontWeight: 700, fontColor: Colors.black }}>Register</Text>
         </TouchableOpacity>
-        <View style={{ alignItems: 'center', paddingVertical: 10 }}>
-          <TouchableOpacity>
-            <Text style={{ fontSize: 14, fontWeight: 700, fontColor: Colors.black, textDecorationLine: 'underline' }}>Create An Account</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
 
