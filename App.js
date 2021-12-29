@@ -9,7 +9,7 @@ import Colors from './src/constant/Colors';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { CommonStore } from './store/commonStore';
+import { CommonStore } from './store/CommonStore';
 //import screens//
 import LoginScreen from './src/screen/LoginScreen';
 import HomeScreen from './src/screen/HomeScreen';
