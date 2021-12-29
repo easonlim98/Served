@@ -9,17 +9,20 @@ import Colors from './src/constant/Colors';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CommonStore } from './store/commonStore';
 //import screens//
 import LoginScreen from './src/screen/LoginScreen';
-import RegisterScreen from './src/screen/RegisterScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import ServiceListScreen from './src/screen/ServiceListScreen';
+import ServiceDetailsScreen from './src/screen/ServiceDetailsScreen';
 import OrderListScreen from './src/screen/OrderListScreen';
 import ChatScreen from './src/screen/ChatScreen';
+import ChatMessageScreen from './src/screen/ChatMessageScreen';
 import ProfileScreen from './src/screen/ProfileScreen';
 //firebase//
 import firebase from 'firebase/app';
 import "firebase/auth";
+import firebaseConfig from './config/key';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,7 +39,6 @@ function LoginScreenStack() {
   return(
     <Stack.Navigator>
       <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -46,6 +48,7 @@ function HomeScreenStack() {
     <Stack.Navigator>
       <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name='ServiceList' component={ServiceListScreen} options={ headerOption } />
+      <Stack.Screen name='ServiceDetails' component={ServiceDetailsScreen} options={ headerOption } />
     </Stack.Navigator>
   );
 }
@@ -62,6 +65,7 @@ function ChatStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name='Chat' component={ChatScreen} options={ headerOption } />
+      <Stack.Screen name='ChatMessage' component={ChatMessageScreen} options={ headerOption } />
     </Stack.Navigator>
   );
 }
@@ -77,16 +81,8 @@ function ProfileStack() {
 
 export default function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const isLoggedIn = CommonStore.useState(s => s.isLoggedIn);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDcH2FVetcVZncDVK4P0WFexQVFmBrbzq0",
-    authDomain: "served-35bae.firebaseapp.com",
-    projectId: "served-35bae",
-    storageBucket: "served-35bae.appspot.com",
-    messagingSenderId: "49500369374",
-    appId: "1:49500369374:web:7760163b7aa7331ba6ed4f"
-  };
 
   //Checking if firebase has been initialized
   if (!firebase.apps.length) {
@@ -97,26 +93,15 @@ export default function App() {
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user != null) {
-      setIsLoggedIn(true)
+      CommonStore.update(s => {
+        s.isLoggedIn = true;
+      });
     } else {
-      setIsLoggedIn(false);
+      CommonStore.update(s => {
+        s.isLoggedIn = false;
+      });
     }
   });
-
- /*  return (
-    <NavigationContainer>
-        { isLoggedIn ?
-        <Stack.Navigator>
-          <Stack.Screen name='Home' component={HomeScreenStack} options={{ headerShown: false }}/>
-        </Stack.Navigator>
-        :
-        <Stack.Navigator>
-          <Stack.Screen name='Login' component={LoginScreenStack} options={{ headerShown: false }}/>
-          <Stack.Screen name='Register' component={RegisterScreenStack} options={{ headerShown: false }}/>
-        </Stack.Navigator>
-        }
-    </NavigationContainer>
-  ); */
 
   return (
     <NavigationContainer>
@@ -141,7 +126,7 @@ export default function App() {
             }
             else if (route.name === 'Chat') {
               return (
-                <AntDesign name={'message1'} size={35} color={Colors.black}/>
+                <AntDesign name={'message1'} size={33} color={Colors.black}/>
               );
             }
             else if (route.name === 'Profile') {

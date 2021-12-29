@@ -17,8 +17,11 @@ import {
 } from 'react-native';
 import Colors from "../constant/Colors";
 import Feather from 'react-native-vector-icons/Feather';
+import { CommonStore } from '../../store/commonStore';
 import firebase from 'firebase/app';
 import "firebase/auth";
+import API from '../../constants/API';
+import ApiClient from '../../util/ApiClient';
 
 const LoginScreen = props => {
 
@@ -33,10 +36,15 @@ const [regFullName, setRegFullName] = useState('');
 const [regEmail, setRegEmail] = useState('');
 const [regPassword, setRegPassword] = useState('');
 const [regRepeatPassword, setRegRepeatPassword] = useState('');
+const [userTypeCustomer, setUserTypeCustomer] = useState('CUSTOMER');
+const [userTypeSeller, setUserTypeSeller] = useState('SELLER');
 //Other//
 const [registrationScreen, setRegistrationScreen] = useState(false);
 /////////
 
+const connect = () => {
+  const URL = 'http://'
+}
 
 const loginFunc = () => {
   firebase.auth().signInWithEmailAndPassword(userEmail, userPassword)
@@ -48,16 +56,57 @@ const loginFunc = () => {
       });
 };
 
-const registerFunc = () => {
+const registerFuncCustomer = () => {
 
   if (regPassword == regRepeatPassword) {
-    firebase.auth().createUserWithEmailAndPassword(regEmail, regPassword)
-        .then(() => {
-          setRegistrationScreen(false);
-        })
-        .catch((error) => {
-            alert(error.message)
-        });
+
+    let credential = firebase.auth().createUserWithEmailAndPassword(regEmail, regPassword)
+    
+    console.log(credential);
+
+    /* var body = {
+        name: regFullName,
+        email: regEmail,
+        type: userTypeCustomer,
+        walletAmount: 0,
+    };
+
+    console.log("BODY", body);
+
+    ApiClient.POST(API.initialRegister, body).then((result) => {
+
+      console.log("initialRegister result", result)
+
+    }); */
+        
+  } else {
+      alert("Passwords are different!")
+  }
+}
+
+const registerFuncSeller = () => {
+
+  if (regPassword == regRepeatPassword) {
+
+    let credential = firebase.auth().createUserWithEmailAndPassword(regEmail, regPassword)
+    
+    console.log(credential);
+
+    var body = {
+        name: regFullName,
+        email: regEmail,
+        type: userTypeSeller,
+        walletAmount: 0,
+    };
+
+    console.log("BODY", body);
+
+    ApiClient.POST(API.initialRegister, body).then((result) => {
+
+      console.log("initialRegister result", result)
+
+    });
+        
   } else {
       alert("Passwords are different!")
   }
@@ -100,7 +149,7 @@ return (
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
           <Feather name={'mail'} size={25} />
-          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Email</Text>
+          <Text style={{ fontSize: 16, fontWeight: 700, color: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Email</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
@@ -112,7 +161,7 @@ return (
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
           <Feather name={'key'} size={25} />
-          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Password</Text>
+          <Text style={{ fontSize: 16, fontWeight: 700, color: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Password</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
@@ -122,7 +171,7 @@ return (
         />
         <View style={{ alignItems: 'flex-end' }}>
           <TouchableOpacity style={{ paddingVertical: 20 }}>
-            <Text style={{ fontSize: 14, fontWeight: 700, fontColor: Colors.black }}>Forget Password?</Text>
+            <Text style={{ fontSize: 14, fontWeight: 700, color: Colors.black }}>Forget Password?</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -134,7 +183,7 @@ return (
             loginFunc();
           }}
         >
-          <Text style={{ fontSize: 24, fontWeight: 700, fontColor: Colors.black }}>LOGIN</Text>
+          <Text style={{ fontSize: 24, fontWeight: 700, color: Colors.black }}>LOGIN</Text>
         </TouchableOpacity>
         <View style={{ alignItems: 'center', paddingVertical: 10 }}>
           <TouchableOpacity
@@ -142,7 +191,7 @@ return (
               setRegistrationScreen(true);
             }}
           >
-            <Text style={{ fontSize: 14, fontWeight: 700, fontColor: Colors.black, textDecorationLine: 'underline' }}>Create An Account</Text>
+            <Text style={{ fontSize: 14, fontWeight: 700, color: Colors.black, textDecorationLine: 'underline' }}>Create An Account</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -160,12 +209,12 @@ return (
     </View>
     <View style={{ flex: 2, alignItems: 'center' }}>
       <View style={{ justifyContent: 'center', paddingVertical: 40}}>
-      <Text style={{ fontSize: 24, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Create Your Account</Text>
+      <Text style={{ fontSize: 24, fontWeight: 700, color: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Create Your Account</Text>
       </View>
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
           <Feather name={'user'} size={25} />
-          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Full Name</Text>
+          <Text style={{ fontSize: 16, fontWeight: 700, color: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Full Name</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
@@ -177,7 +226,7 @@ return (
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
           <Feather name={'mail'} size={25} />
-          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Email</Text>
+          <Text style={{ fontSize: 16, fontWeight: 700, color: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Email</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
@@ -189,7 +238,7 @@ return (
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
           <Feather name={'key'} size={25} />
-          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Password</Text>
+          <Text style={{ fontSize: 16, fontWeight: 700, color: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Password</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
@@ -201,7 +250,7 @@ return (
       <View style={{ justifyContent: 'center', paddingVertical: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
           <Feather name={'key'} size={25} />
-          <Text style={{ fontSize: 16, fontWeight: 700, fontColor: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Repeat Password</Text>
+          <Text style={{ fontSize: 16, fontWeight: 700, color: Colors.black, paddingVertical: 5, marginLeft: 10 }}>Repeat Password</Text>
         </View>
         <TextInput
           style={[styles.textInput]}
@@ -220,10 +269,20 @@ return (
         <TouchableOpacity
           style={[styles.registerButton]}
           onPress={() => {
-            registerFunc();
+            registerFuncCustomer();
           }}
         >
-          <Text style={{ fontSize: 24, fontWeight: 700, fontColor: Colors.black }}>Register</Text>
+          <Text style={{ fontSize: 24, fontWeight: '700', color: Colors.black }}>Register As Customer</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{ paddingVertical: 5 }}>
+        <TouchableOpacity
+          style={[styles.registerSellerButton]}
+          onPress={() => {
+            registerFuncSeller();
+          }}
+        >
+          <Text style={{ fontSize: 24, fontWeight: '700', color: Colors.white }}>Register As Seller</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -263,11 +322,27 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   registerButton: {
-    width: 200,
+    width: 300,
     height: 50,
     backgroundColor: Colors.primaryColor,
     borderRadius: 20,
     shadowColor: '#5B5B5B',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 3,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  registerSellerButton: {
+    width: 300,
+    height: 50,
+    backgroundColor: '#A55013',
+    borderRadius: 20,
+    shadowColor: '#',
     shadowOffset: {
       width: 0,
       height: 0,

@@ -59,10 +59,34 @@ navigation.setOptions({
 });
 
 
-const [serviceList, setServiceList] = useState([
-  {name: 'Sofa Service'}, 
-  {name: 'Table Painting'},
-  {name: 'Bed Lifting'},
+const [orderList, setOrderList] = useState([
+  {
+    name: 'Phone Damage',
+    image: 'https://blog.malwarebytes.com/wp-content/uploads/2015/05/photodune-9089398-mobile-devices-s-900x506.jpg',
+    description: 'Scratched Sofa skin and bone break, required fixes',
+    price: 50.00.toFixed(2),
+    starCount: 3,
+    orderAt: '12/11/2021 03:24PM',
+    status: 'completed'
+  }, 
+  {
+    name: 'Scratch Screen',
+    image: 'https://blueflag.com.au/static/3642cc73b5c4a9ceb5fa176c5f5506af/4dad2/vehicle-make.jpg',
+    description: 'Table painting with free design options with this seller.',
+    price: 150.00.toFixed(2),
+    starCount: 5,
+    orderAt: '12/11/2021 03:24PM',
+    status: 'pending'
+  },
+  {
+    name: 'All Kind Repair',
+    image: 'https://www.crossthet.com.au/wp-content/uploads/2021/06/construction-crane-surveyor-1.jpg',
+    description: 'Load heavy bed',
+    price: 79.00.toFixed(2),
+    starCount: 4,
+    orderAt: '12/11/2021 03:24PM',
+    status: 'in-progress'
+  },
 ]);
 
 const renderServiceList = ({item, index}) => {
@@ -70,17 +94,69 @@ const renderServiceList = ({item, index}) => {
     <View style={{ paddingHorizontal: 15, paddingVertical: 15, alignItems: 'center' }}>
     <TouchableOpacity
       style={{ 
-        width: Dimensions.get('screen').width * 0.85, 
-        height: 150,
-        borderWidth: 1,
-        backgroundColor: Colors.primaryColor,
+        width: Dimensions.get('screen').width * 0.85,
+        height: 130,
+        paddingHorizontal: 15,
         borderRadius: 20,
+        shadowColor: Colors.black,
+          shadowOffset: {
+          width: 2,
+          height: 2,
+          },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 10,
       }}
       onPress={() => {
-          navigation.goBack()
+          
       }}
     >
-    <Text>{item.name}</Text>
+      <View style={{ flex: 3 }}>
+        <View style={{ flex: 1, flexDirection: 'row', paddingTop: 15 }}>
+          <View style={{ flex: 1 }}>
+            <Image
+              style={{
+                borderRadius: 10,
+                width: 80,
+                height: 80,
+              }}
+              source={{uri: item.image}}
+            />
+          </View>
+          <View style={{ flex: 3, paddingLeft: 10, paddingRight: 10 }}>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold', width: '70%' }}>{item.name}</Text>
+              <View style={{ padding: 5, width: '30%' }}>
+              <Text style={{
+                backgroundColor: 
+                item.status === 'completed' ? '#474747' 
+                : item.status === 'pending' ? '#5032CB'
+                : item.status === 'cancelled' ? '#BD1409'
+                : item.status === 'in-progress' ? '#7F8201' : '',
+                paddingVertical: 3,
+                borderRadius: 10,
+                textAlign: 'center',
+                fontSize: 10,
+                color: Colors.white
+              }}>
+                {item.status}
+              </Text>
+              </View>
+            </View>
+            <View style={{ flex: 3, paddingTop: 5 }}>
+              <Text style={{ fontWeight: '600' }}>Description:</Text>
+              <Text style={{ fontSize: 13 }} numberOfLines={2}>{item.description}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      <View style={{ flex: 1, paddingTop: 5, paddingLeft: 5  }}>
+        <Text style={{ 
+          }}>
+            Order Date/Time: {item.orderAt}
+        </Text>
+      </View>
     </TouchableOpacity>
     </View>
   )
@@ -138,7 +214,7 @@ return (
 
     <View style={{ justifyContent: 'center', alignItems: 'center'}}>
       <FlatList
-        data={serviceList}
+        data={orderList}
         renderItem={renderServiceList}
       />
     </View>

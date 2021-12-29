@@ -23,10 +23,22 @@ const HomeScreen = props => {
 const { navigation, route } = props;
 
 const [categoryList, setCategoryList] = useState([
-  {name: 'Mobile'}, 
-  {name: 'Vechicle'},
-  {name: 'Construction'},
-  {name: 'Laundry'},
+  {
+    name: 'Mobile',
+    image: 'https://blog.malwarebytes.com/wp-content/uploads/2015/05/photodune-9089398-mobile-devices-s-900x506.jpg'
+  }, 
+  {
+    name: 'Vechicle',
+    image: 'https://blueflag.com.au/static/3642cc73b5c4a9ceb5fa176c5f5506af/4dad2/vehicle-make.jpg'
+  },
+  {
+    name: 'Construction',
+    image: 'https://www.crossthet.com.au/wp-content/uploads/2021/06/construction-crane-surveyor-1.jpg'
+  },
+  {
+    name: 'Laundry',
+    image: 'https://res.cloudinary.com/mtree/image/upload/q_auto,f_auto,dpr_auto/Downy_US_MW/6CCVOCZnGmKCfE1HiETinK/f8cb90a383efdbb80eae1893374a4a52/ef9e5dab2cc86043cb7dc3a241c72716_2x.jpg'
+  },
 ]);
 
 const renderCategoryList = ({item, index}) => {
@@ -34,15 +46,19 @@ const renderCategoryList = ({item, index}) => {
     <View style={{ paddingHorizontal: 15, paddingVertical: 15, alignItems: 'center' }}>
     <TouchableOpacity
       style={{ 
-        width: Dimensions.get('screen').width * 0.23, 
-        height: Dimensions.get('screen').width * 0.23,
-        borderWidth: 1,
-        backgroundColor: Colors.primaryColor
+        width: 120, 
+        height: 120,
       }}
       onPress={() => {
         navigation.navigate('ServiceList')
-      }}
-    >
+      }}>
+      <Image
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+        source={{uri: item.image}}
+      />
     </TouchableOpacity>
     <Text>{item.name}</Text>
     </View>
@@ -60,8 +76,8 @@ return (
     />
     </View>
     <View style={{ justifyContent: 'center' }}>
-    <Text style={{ fontSize: 30, fontWeight: 900, fontColor: Colors.black, paddingVertical: 5, }}>Hi Eason Lim,</Text>
-    <Text style={{ width: '60%', fontSize: 20, fontWeight: 700, fontColor: Colors.black }}>What service are you looking for?</Text>
+    <Text style={{ fontSize: 30, fontWeight: 900, color: Colors.black, paddingVertical: 5, }}>Hi Eason Lim,</Text>
+    <Text style={{ width: '60%', fontSize: 20, fontWeight: 700, color: Colors.black }}>What service are you looking for?</Text>
     </View>
     </View>
 
