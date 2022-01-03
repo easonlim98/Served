@@ -17,11 +17,10 @@ import {
 } from 'react-native';
 import Colors from "../constant/Colors";
 import Feather from 'react-native-vector-icons/Feather';
-import { CommonStore } from '../../store/commonStore';
 import firebase from 'firebase/app';
 import "firebase/auth";
 import API from '../../constants/API';
-import ApiClient from '../../util/ApiClient';
+import { createCustomer, getCustomer } from '../../Firebase-API/UserAPI'
 
 const LoginScreen = props => {
 
@@ -41,9 +40,22 @@ const [userTypeSeller, setUserTypeSeller] = useState('SELLER');
 //Other//
 const [registrationScreen, setRegistrationScreen] = useState(false);
 /////////
+const [userCustomer, setUserCustomer] = useState([])
+const [userName, setUserName] = useState('')
 
-const connect = () => {
-  const URL = 'http://'
+/* useEffect(() => {
+  getCustomer(onCustomerRetrieved)
+}, []); */
+
+const onCustomerRetrieved = (userCustomer) => {
+  console.log(userCustomer);
+  setUserCustomer(userCustomer)
+}
+
+const onCreatedCustomer = (customer) => {
+  console.log(customer);
+  console.log('added')
+
 }
 
 const loginFunc = () => {
@@ -64,52 +76,17 @@ const registerFuncCustomer = () => {
     
     console.log(credential);
 
-    /* var body = {
+
+
+    createCustomer(
+      {
         name: regFullName,
         email: regEmail,
         type: userTypeCustomer,
         walletAmount: 0,
-    };
-
-    console.log("BODY", body);
-
-    ApiClient.POST(API.initialRegister, body).then((result) => {
-
-      console.log("initialRegister result", result)
-
-    }); */
-        
-  } else {
-      alert("Passwords are different!")
-  }
+      }
+    )
 }
-
-const registerFuncSeller = () => {
-
-  if (regPassword == regRepeatPassword) {
-
-    let credential = firebase.auth().createUserWithEmailAndPassword(regEmail, regPassword)
-    
-    console.log(credential);
-
-    var body = {
-        name: regFullName,
-        email: regEmail,
-        type: userTypeSeller,
-        walletAmount: 0,
-    };
-
-    console.log("BODY", body);
-
-    ApiClient.POST(API.initialRegister, body).then((result) => {
-
-      console.log("initialRegister result", result)
-
-    });
-        
-  } else {
-      alert("Passwords are different!")
-  }
 }
 
 const terms_of_use = () => {
@@ -342,7 +319,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#A55013',
     borderRadius: 20,
-    shadowColor: '#',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 0,

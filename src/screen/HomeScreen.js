@@ -86,6 +86,7 @@ return (
         numColumns={3}
         data={categoryList}
         renderItem={renderCategoryList}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
 

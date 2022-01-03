@@ -19,6 +19,7 @@ import OrderListScreen from './src/screen/OrderListScreen';
 import ChatScreen from './src/screen/ChatScreen';
 import ChatMessageScreen from './src/screen/ChatMessageScreen';
 import ProfileScreen from './src/screen/ProfileScreen';
+console.reportErrorsAsExceptions = false;
 //firebase//
 import firebase from 'firebase/app';
 import "firebase/auth";
@@ -38,7 +39,7 @@ const headerOption = {
 function LoginScreenStack() {
   return(
     <Stack.Navigator>
-      <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='Signin' component={LoginScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -46,7 +47,7 @@ function LoginScreenStack() {
 function HomeScreenStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='Main' component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name='ServiceList' component={ServiceListScreen} options={ headerOption } />
       <Stack.Screen name='ServiceDetails' component={ServiceDetailsScreen} options={ headerOption } />
     </Stack.Navigator>
@@ -108,6 +109,15 @@ export default function App() {
       { isLoggedIn ?
       <Tab.Navigator
         screenOptions={({ route }) => ({
+            "tabBarActiveBackgroundColor": "#FFF500",
+            "tabBarInactiveBackgroundColor": "#FFF500",
+            "tabBarShowLabel": false,
+            "tabBarStyle": [
+              {
+                "display": "flex"
+              },
+              null
+            ],
           tabBarStyle: {
             height: 80,
             borderTopWidth: 0,
@@ -115,21 +125,21 @@ export default function App() {
           tabBarVisible: route.state ? route.state.index > 0 ? false : true : null,
           tabBarIcon: ({ focused, color, size }) => {
 
-            if (route.name === 'Home') {
+            if (route.name === 'Main1') {
               return (
                 <Ionicons name={'md-home-outline'} size={35} color={Colors.black}/>
               );
-            } else if (route.name === 'OrderList') {
+            } else if (route.name === 'OrderList1') {
               return (
                 <Ionicons name={'md-newspaper-outline'} size={35} color={Colors.black}/>
               );
             }
-            else if (route.name === 'Chat') {
+            else if (route.name === 'Chat1') {
               return (
                 <AntDesign name={'message1'} size={33} color={Colors.black}/>
               );
             }
-            else if (route.name === 'Profile') {
+            else if (route.name === 'Profile1') {
               return (
                 <Ionicons name={'md-person-outline'} size={35} color={Colors.black}/>
               );
@@ -138,24 +148,15 @@ export default function App() {
             return <Feather name={'home'} size={35} color={Colors.grey}/>;
           
           },
-        })}
-        tabBarOptions={{
-            showLabel: false,
-            activeBackgroundColor: Colors.bottomTabBar,
-            inactiveBackgroundColor: Colors.bottomTabBar,
-            style: {
-                //backgroundColor: Colors.bottomTabBar,
-                //padding: 10
-            },
-        }}>
-        <Tab.Screen name="Home" component={HomeScreenStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="OrderList" component={OrderListStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="Chat" component={ChatStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="Profile" component={ProfileStack} options={{ headerShown: false }}/>
+        })}>
+        <Tab.Screen name="Main1" component={HomeScreenStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="OrderList1" component={OrderListStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="Chat1" component={ChatStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="Profile1" component={ProfileStack} options={{ headerShown: false }}/>
       </Tab.Navigator>
       :
       <Stack.Navigator>
-        <Stack.Screen name='Login' component={LoginScreenStack} options={{ headerShown: false }}/>
+        <Stack.Screen name='Signin1' component={LoginScreenStack} options={{ headerShown: false }}/>
       </Stack.Navigator>
       }
     </NavigationContainer>

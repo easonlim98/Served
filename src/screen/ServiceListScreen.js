@@ -208,6 +208,7 @@ return (
       <FlatList
         data={serviceList}
         renderItem={renderServiceList}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
 

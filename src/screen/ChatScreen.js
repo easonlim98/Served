@@ -172,6 +172,7 @@ return (
       <FlatList
         data={conversationList}
         renderItem={renderConversationList}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
 

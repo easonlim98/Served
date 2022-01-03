@@ -1,8 +1,8 @@
-const initialRegister = 'initialRegister'
+const registerUser = 'registerUser'
 
 const API = {
 
-    initialRegister,
+    registerUser,
 
 };
 

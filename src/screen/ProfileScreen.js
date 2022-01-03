@@ -231,6 +231,7 @@ return (
       }}
       data={userTransactions}
       renderItem={renderTransaction}
+      keyExtractor={(item, index) => index.toString()}
     />
     </View>
 
