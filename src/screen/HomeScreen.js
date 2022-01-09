@@ -20,6 +20,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { CommonStore } from '../../store/CommonStore';
 import { ServiceCategory } from '../../store/ServiceCategory';
 import ServiceListScreen from './ServiceListScreen';
+import { CollectionFunc } from '../../util/CommonFunc';
 
 
 const HomeScreen = props => {

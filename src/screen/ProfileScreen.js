@@ -30,6 +30,7 @@ const ProfileScreen = props => {
 const { navigation, route } = props;
 
 const userSelected = CommonStore.useState(s => s.userSelected);
+const firebaseUid = CommonStore.useState(s => s.firebaseUid);
 
 navigation.setOptions({
   headerLeft: () => (
@@ -71,6 +72,7 @@ navigation.setOptions({
     onPress={() => {
       CommonStore.update(s => {
         s.isLoggedIn = false;
+        s.firebaseUid = '';
       });
       firebase.auth().signOut()
     }}>

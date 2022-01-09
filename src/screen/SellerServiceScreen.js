@@ -137,7 +137,7 @@ return (
         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Total Services: 3</Text>
     </View>
 
-    <View style={{ justifyContent: 'center', alignItems: 'center'}}>
+    <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center'}}>
       {/* <FlatList
         data={orderList}
         renderItem={renderServiceList}
@@ -213,7 +213,7 @@ return (
           </View>
         );
       })}
-    </View>
+    </ScrollView>
 
   </View>
 

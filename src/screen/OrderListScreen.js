@@ -22,10 +22,6 @@ import moment from 'moment';
 import { CollectionFunc } from '../../util/CommonFunc';
 
 
-const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
-
 const OrderListScreen = (props) => {
 
 const { navigation, route } = props;
@@ -66,25 +62,45 @@ navigation.setOptions({
   ),
 });
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => { 
-      CollectionFunc();
+    wait(2000).then(() => {
       setRefreshing(false)
+      //CollectionFunc();
+      refreshScreenData();
     });
   }, []);
 
 const [currCustomerOrder, setCurrCustomerOrder] = useState([]);
 
+const refreshScreenData = async () => {
+
+  var tempCustomerOrder = [];
+
+  for(var x = 0; x < customerOrder.length; x++){
+    if(firebaseUid === customerOrder[x].customerID){
+      const orders = customerOrder[x]
+      tempCustomerOrder.push(orders);
+    }
+  }
+
+  setCurrCustomerOrder(tempCustomerOrder);
+  console.log(tempCustomerOrder)
+
+};
 
 useEffect(()=> {
   
   var tempCustomerOrder = [];
 
   for(var x = 0; x < customerOrder.length; x++){
-    if(userSelected.id === customerOrder[x].customerID){
+    if(firebaseUid === customerOrder[x].customerID){
       const orders = customerOrder[x]
       tempCustomerOrder.push(orders);
     }
@@ -93,8 +109,9 @@ useEffect(()=> {
   setCurrCustomerOrder(tempCustomerOrder);
   console.log(tempCustomerOrder)
   
-},[customerOrder, userSelected])
+},[customerOrder, userSelected, firebaseUid])
 
+const firebaseUid = CommonStore.useState(s => s.firebaseUid);
 const userSelected = CommonStore.useState(s => s.userSelected);
 const serviceList = CommonStore.useState(s => s.serviceList);
 const customerOrder = CommonStore.useState(s => s.customerOrder);

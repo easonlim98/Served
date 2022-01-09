@@ -91,6 +91,10 @@ export default function App() {
 
   const isLoggedIn = CommonStore.useState(s => s.isLoggedIn);
 
+  useEffect(()=> {
+    CollectionFunc();
+  },[])
+
   //Checking if firebase has been initialized
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);

@@ -42,8 +42,11 @@ const userList = CommonStore.useState(s => s.userList);
 const firebaseUid = CommonStore.useState(s => s.firebaseUid);
 
 useEffect(()=> {
-  CollectionFunc();
-},[])
+  if(firebaseUid != ''){
+  CollectionFunc(firebaseUid);
+  console.log(firebaseUid);
+  }
+},[firebaseUid])
 
 const loginFunc = () => {
   firebase.auth().signInWithEmailAndPassword(userEmail, userPassword)
@@ -54,6 +57,7 @@ const loginFunc = () => {
             tempUserList = userList[x];
             CommonStore.update(s =>{
               s.userSelected = tempUserList;
+              s.firebaseUid = tempUserList.id;
             })
           }
         }
@@ -89,17 +93,16 @@ const registerFuncSeller = () => {
     let credential = firebase.auth().createUserWithEmailAndPassword(regEmail, regPassword)
     
     console.log(credential);
+    var userDetail = {
+      name: regFullName,
+      email: regEmail,
+      type: userTypeSeller,
+      walletAmount: 0,
+      createdAt: Date.now(),
+      isActive: true,
+  }
 
-    createCustomer(
-      {
-        name: regFullName,
-        email: regEmail,
-        type: userTypeSeller,
-        walletAmount: 0,
-        createdAt: Date.now(),
-        isActive: true,
-      }
-    )
+    createCustomer(userDetail)
 }
 }
 
