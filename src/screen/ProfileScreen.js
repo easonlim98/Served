@@ -24,9 +24,12 @@ import { CommonStore } from '../../store/CommonStore';
 import "firebase/auth";
 import firebase from 'firebase/app';
 
+
 const ProfileScreen = props => {
 
 const { navigation, route } = props;
+
+const userSelected = CommonStore.useState(s => s.userSelected);
 
 navigation.setOptions({
   headerLeft: () => (
@@ -36,11 +39,11 @@ navigation.setOptions({
     }}>
       <View style={{
         justifyContent: 'center',
-        paddingLeft: 5,
+        paddingLeft: 0,
       }}>
         <Feather
           name="arrow-left"
-          size={45}
+          size={24}
           color={Colors.black}
           style={{
           }}
@@ -54,7 +57,7 @@ navigation.setOptions({
     }}>
       <Text
         style={{
-          fontSize: 30,
+          fontSize: 24,
           fontWeight: 'bold',
           color: Colors.black,
         }}>
@@ -77,7 +80,7 @@ navigation.setOptions({
       }}>
         <MaterialCommunityIcons
           name='logout'
-          size={45}
+          size={24}
           color={Colors.black}
           style={{
           }}
@@ -106,7 +109,7 @@ const [userProfile, setUserProfile] = useState([
   {
     customerId: 'EL1',
     name: 'Eason Lim',
-    type: 'customer',
+    type: 'CUSTOMER',
     image: 'https://cdn.vox-cdn.com/thumbor/sPIVB-yrRQEpikY57IUZ9qcuJsU=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/22266379/shin_ultraman.jpg',
     wallet: 80.00.toFixed(2),
   },
@@ -137,6 +140,36 @@ const [transactionList, setTransactionList] = useState([
     serviceName: undefined,
     createdAt: '15/12/2021 09:22AM'
   },
+  {
+    amount: 250.00.toFixed(2),
+    customerId: 'EL1',
+    serviceName: undefined,
+    createdAt: '15/12/2021 09:22AM'
+  },
+  {
+    amount: 250.00.toFixed(2),
+    customerId: 'EL1',
+    serviceName: undefined,
+    createdAt: '15/12/2021 09:22AM'
+  },
+  {
+    amount: 250.00.toFixed(2),
+    customerId: 'EL1',
+    serviceName: undefined,
+    createdAt: '15/12/2021 09:22AM'
+  },
+  {
+    amount: 250.00.toFixed(2),
+    customerId: 'EL1',
+    serviceName: undefined,
+    createdAt: '15/12/2021 09:22AM'
+  },
+  {
+    amount: 250.00.toFixed(2),
+    customerId: 'EL1',
+    serviceName: undefined,
+    createdAt: '15/12/2021 09:22AM'
+  },
 ]);
 
 const renderTransaction = ({ item, index }) => {
@@ -145,14 +178,14 @@ const renderTransaction = ({ item, index }) => {
       <View style={{ }}>
         <FontAwesome 
           name={item.serviceName === undefined ? 'plus-circle' : 'minus-circle'} 
-          size={25}
+          size={20}
           color={item.serviceName === undefined ? Colors.primaryColor : '#003BD1'}
         />
       </View>
       <View style={{ paddingLeft: 20 }}>
         <View style={{  }}>
           <Text style={{ 
-            fontSize: 18, 
+            fontSize: 14, 
             fontWeight: 'bold',
             color: item.serviceName === undefined ? Colors.primaryColor : '#003BD1'
             }}>
@@ -163,11 +196,11 @@ const renderTransaction = ({ item, index }) => {
         <></>
         :
         <View style={{  }}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.serviceName}</Text>
+          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{item.serviceName}</Text>
         </View>
         }
         <View style={{  }}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.createdAt}</Text>
+          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{item.createdAt}</Text>
         </View>
       </View>
     </View>
@@ -177,28 +210,29 @@ const renderTransaction = ({ item, index }) => {
 return (
 
   <ScrollView style={[styles.container]}>
+    <View style={{ paddingBottom: 20 }}>
       <View style={{ flexDirection: 'row', paddingVertical: 30, width: '80%', alignSelf: 'center' }}>
         <View style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }}>
           <Image
             style={{
               borderRadius: 80,
-              width: 120,
-              height: 120,
+              width: 80,
+              height: 80,
             }}
             source={{ uri: userProfile[0].image }}
           />
         </View>
-        <View style={{ width: '70%', paddingVertical: 10, paddingHorizontal: 30 }}>
+        <View style={{ width: '70%', paddingVertical: 0, paddingHorizontal: 20 }}>
           <View>
-            <Text style={{ fontSize: 26, fontWeight: 'bold' }}>{userProfile[0].name}</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{userSelected.name}</Text>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 15 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Fontisto name={'wallet'} size={25} color={Colors.primaryColor}/>
-              <Text style={{ paddingLeft: 15, fontSize: 20, fontWeight: 'bold' }}>RM {userProfile[0].wallet}</Text>
+              <Fontisto name={'wallet'} size={20} color={Colors.primaryColor}/>
+              <Text style={{ paddingLeft: 12, fontSize: 16, fontWeight: 'bold' }}>RM {userSelected.walletAmount}</Text>
             </View>
             <View style={{ alignItems: 'center' }}>
-              <FontAwesome name={'plus-circle'} size={25} color={Colors.primaryColor} />
+              <FontAwesome name={'plus-circle'} size={20} color={Colors.primaryColor} />
             </View>
           </View>
         </View>
@@ -207,34 +241,56 @@ return (
     <View style={{ 
       paddingHorizontal: 50,
       paddingVertical: 15, 
-      height: 500, 
+      height: Dimensions.get('screen').height * 0.5, 
       width: '80%', 
       alignSelf: 'center',
       borderRadius: 20,
-      shadowColor: Colors.black,
-        shadowOffset: {
-        width: 2,
-        height: 2,
-        },
-      shadowOpacity: 0.3,
-      shadowRadius: 8,
-      elevation: 10, 
+      backgroundColor: Colors.white,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+      elevation: 3,
     }}>
       <View style={{ paddingBottom: 20 }}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Transaction</Text>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Transaction</Text>
       </View>
     <FlatList
       style={{
-        height: '80%',
-        width: '80%',
+        //height: '80%',
+        //width: '100%',
         alignSelf: 'center',
       }}
+      nestedScrollEnabled={true}
       data={userTransactions}
       renderItem={renderTransaction}
       keyExtractor={(item, index) => index.toString()}
     />
     </View>
-
+    </View>
+    <View style={{ alignItems: 'center' }}>
+        <TouchableOpacity
+          style={[styles.SellerButton]}
+          onPress={() => {
+            navigation.navigate('SellerService')
+          }}
+        >
+          <Text style={{ fontSize: 16, fontWeight: '700', color: Colors.black }}>My Service</Text>
+        </TouchableOpacity>
+    </View>
+    <View style={{ alignItems: 'center', paddingVertical: 10, }}>
+        <TouchableOpacity
+          style={[styles.SellerButton]}
+          onPress={() => {
+            navigation.navigate('CustomerOrder')
+          }}
+        >
+          <Text style={{ fontSize: 16, fontWeight: '700', color: Colors.black }}>Customer's Order</Text>
+        </TouchableOpacity>
+    </View>
   </ScrollView>
 
 );
@@ -243,14 +299,14 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     backgroundColor: Colors.white,
   },
   homeLogo: {
     width: 220,
     height: 50,
   },
-  loginButton: {
+  SellerButton: {
     width: 200,
     height: 50,
     backgroundColor: Colors.primaryColor,

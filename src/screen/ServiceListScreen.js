@@ -8,48 +8,25 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
-  RefreshControl,
-  Alert,
-  Modal,
   Dimensions,
-  Platform,
-  ActivityIndicator,
 } from 'react-native';
 import Colors from "../constant/Colors";
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { CommonStore } from '../../store/CommonStore'
 
 const ServiceListScreen = props => {
 
 const { navigation, route } = props;
 navigation.setOptions({
-  headerLeft: () => (
-    <TouchableOpacity style={{
-    }} 
-    onPress={() => { props.navigation.goBack();
-    }}>
-      <View style={{
-        justifyContent: 'center',
-        paddingLeft: 5,
-      }}>
-        <Feather
-          name="arrow-left"
-          size={45}
-          color={Colors.black}
-          style={{
-          }}
-        />
-      </View>
-  </TouchableOpacity>
-  ),
   headerTitle: () => (
     <View style={{
       justifyContent: 'center',
     }}>
       <Text
         style={{
-          fontSize: 30,
+          fontSize: 24,
           fontWeight: 'bold',
           color: Colors.black,
         }}>
@@ -59,8 +36,12 @@ navigation.setOptions({
   ),
 });
 
-const [serviceList, setServiceList] = useState([
+const serviceCategorySelected = CommonStore.useState(s => s.serviceCategorySelected);
+const serviceSelected = CommonStore.useState(s => s.serviceSelected);
+
+/* const [serviceList, setServiceList] = useState([
   {
+    uniqueId: 1,
     name: 'Phone Damage',
     image: 'https://blog.malwarebytes.com/wp-content/uploads/2015/05/photodune-9089398-mobile-devices-s-900x506.jpg',
     description: 'Scratched Sofa skin and bone break, required fixes',
@@ -68,6 +49,7 @@ const [serviceList, setServiceList] = useState([
     starCount: 3,
   }, 
   {
+    uniqueId: 2,
     name: 'Scratch Screen',
     image: 'https://blueflag.com.au/static/3642cc73b5c4a9ceb5fa176c5f5506af/4dad2/vehicle-make.jpg',
     description: 'Table painting with free design options with this seller.',
@@ -75,31 +57,37 @@ const [serviceList, setServiceList] = useState([
     starCount: 5,
   },
   {
+    uniqueId: 3,
     name: 'All Kind Repair',
     image: 'https://www.crossthet.com.au/wp-content/uploads/2021/06/construction-crane-surveyor-1.jpg',
     description: 'Load heavy bed',
     price: 79.00.toFixed(2),
     starCount: 4,
   },
-]);
+]); */
 
 const renderServiceList = ({item, index}) => {
   return(
-    <View style={{ paddingHorizontal: 15, paddingVertical: 15, alignItems: 'center' }}>
+    <View style={{ 
+      paddingHorizontal: 15, 
+      paddingVertical: 5, 
+      alignItems: 'center', 
+    }}>
     <TouchableOpacity
       style={{ 
         width: Dimensions.get('screen').width * 0.85,
         padding: 15,
         height: 150,
         borderRadius: 20,
-        shadowColor: Colors.black,
-          shadowOffset: {
-          width: 2,
-          height: 2,
-          },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-        elevation: 10,
+        backgroundColor: Colors.white,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
       }}
       onPress={() => {
           navigation.navigate('ServiceDetails')
@@ -117,13 +105,13 @@ const renderServiceList = ({item, index}) => {
               source={{uri: item.image}}
             />
           </View>
-          <View style={{ flex: 3, paddingLeft: 10, paddingRight: 10 }}>
+          <View style={{ flex: 2, paddingLeft: 10, paddingRight: 10 }}>
             <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
+              <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{item.name}</Text>
             </View>
             <View style={{ flex: 3, paddingVertical: 5 }}>
               <Text style={{ fontWeight: '600' }}>Description:</Text>
-              <Text style={{ fontSize: 13 }} numberOfLines={2}>{item.description}</Text>
+              <Text style={{ fontSize: 11 }} numberOfLines={2}>{item.description}</Text>
             </View>
           </View>
         </View>
@@ -156,7 +144,7 @@ const renderServiceList = ({item, index}) => {
 return (
 
   <ScrollView style={[styles.container]}>
-    <View style={{ paddingVertical: 30 }}>
+    <View style={{ paddingVertical: 20 }}>
     <View
         style={{
             width: 300,
@@ -187,7 +175,6 @@ return (
             style={{
             width: 220,
             fontSize: 15,
-            fontFamily: 'NunitoSans-Regular',
             paddingLeft: 10,
             height: 40,
             }}
@@ -201,15 +188,91 @@ return (
     </View>
     </View>
     <View style={{ paddingHorizontal: 40, paddingVertical: 5 }}>
-        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Total Services: 3</Text>
+        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Total Services: {serviceCategorySelected.length}</Text>
     </View>
 
     <View style={{ justifyContent: 'center', alignItems: 'center'}}>
-      <FlatList
+      {/* <FlatList
         data={serviceList}
         renderItem={renderServiceList}
         keyExtractor={(item, index) => index.toString()}
-      />
+      /> */}
+      {serviceCategorySelected.map((item, index) => {
+        return(
+          <View style={{ 
+            paddingHorizontal: 15, 
+            paddingVertical: 5, 
+            alignItems: 'center', 
+          }}>
+          <TouchableOpacity
+            style={{ 
+              width: Dimensions.get('screen').width * 0.85,
+              padding: 15,
+              height: 150,
+              borderRadius: 20,
+              backgroundColor: Colors.white,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 3,
+            }}
+            onPress={() => {
+                CommonStore.update(s => {
+                  s.serviceSelected = item;
+                })
+                navigation.navigate('ServiceDetails')
+            }}
+          >
+            <View style={{ flex: 2.5 }}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1 }}>
+                  <Image
+                    style={{
+                      borderRadius: 10,
+                      width: 80,
+                      height: 80,
+                    }}
+                    source={{uri: item.serviceImg}}
+                  />
+                </View>
+                <View style={{ flex: 2, paddingLeft: 10, paddingRight: 10 }}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{item.serviceName}</Text>
+                  </View>
+                  <View style={{ flex: 3, paddingVertical: 5 }}>
+                    <Text style={{ fontSize: 12, fontWeight: '600' }}>Description:</Text>
+                    <Text style={{ fontSize: 11 }} numberOfLines={2}>{item.serviceDescription}</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+      
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ flex: 1 }}>
+                <AntDesign name={'star'} size={30} color={Colors.primaryColor}/>
+              </View>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={{ 
+                      fontSize: 16, 
+                      fontWeight: 'bold', 
+                      textAlign: 'center',
+                      backgroundColor: Colors.priceContainer,
+                      borderRadius: 5,
+                      width: '80%',
+                      height: '80%',
+                    }}>
+                      RM{item.servicePrice}
+                    </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+          </View>
+        )
+      })}
     </View>
 
   </ScrollView>

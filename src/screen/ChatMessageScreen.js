@@ -22,42 +22,22 @@ import { GiftedChat } from 'react-native-gifted-chat'
 const ChatMessageScreen = props => {
 
 const { navigation, route } = props;
-
 navigation.setOptions({
-    headerLeft: () => (
-      <TouchableOpacity style={{
-      }} 
-      onPress={() => { props.navigation.goBack();
-      }}>
-        <View style={{
-          justifyContent: 'center',
-          paddingLeft: 5,
+  headerTitle: () => (
+    <View style={{
+      justifyContent: 'center',
+    }}>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: 'bold',
+          color: Colors.black,
         }}>
-          <Feather
-            name="arrow-left"
-            size={45}
-            color={Colors.black}
-            style={{
-            }}
-          />
-        </View>
-    </TouchableOpacity>
-    ),
-    headerTitle: () => (
-      <View style={{
-        justifyContent: 'center',
-      }}>
-        <Text
-          style={{
-            fontSize: 30,
-            fontWeight: 'bold',
-            color: Colors.black,
-          }}>
-          Repair Guy
-        </Text>
-      </View>
-    ),
-  });
+        James
+      </Text>
+    </View>
+  ),
+});
 
 const [messages, setMessages] = useState([]);
 

@@ -17,11 +17,27 @@ import {
 } from 'react-native';
 import Colors from "../constant/Colors";
 import Feather from 'react-native-vector-icons/Feather';
+import { CommonStore } from '../../store/CommonStore';
+import { ServiceCategory } from '../../store/ServiceCategory';
+import ServiceListScreen from './ServiceListScreen';
+
 
 const HomeScreen = props => {
 
 const { navigation, route } = props;
 
+const userSelected = CommonStore.useState(s => s.userSelected);
+const serviceCategorySelected = CommonStore.useState(s => s.serviceCategorySelected);
+const serviceList = CommonStore.useState(s => s.serviceList);
+const [userStore, setUserStore] = useState();
+
+
+useEffect(()=> {
+  console.log(userSelected)
+},[userSelected])
+
+
+//dummy data
 const [categoryList, setCategoryList] = useState([
   {
     name: 'Mobile',
@@ -46,11 +62,21 @@ const renderCategoryList = ({item, index}) => {
     <View style={{ paddingHorizontal: 15, paddingVertical: 15, alignItems: 'center' }}>
     <TouchableOpacity
       style={{ 
-        width: 120, 
-        height: 120,
+        width: 85, 
+        height: 85,
       }}
       onPress={() => {
-        navigation.navigate('ServiceList')
+        var tempServiceSelected = [];
+          for(var x = 0; x < serviceList.length; x++){
+            if(item.id === serviceList[x].serviceCategory){
+              const record = serviceList[x];
+              tempServiceSelected.push(record)
+            }
+          }
+          CommonStore.update(s => {
+            s.serviceCategorySelected = tempServiceSelected;
+          });
+          navigation.navigate('ServiceList')
       }}>
       <Image
         style={{
@@ -60,7 +86,7 @@ const renderCategoryList = ({item, index}) => {
         source={{uri: item.image}}
       />
     </TouchableOpacity>
-    <Text>{item.name}</Text>
+    <Text style={{ fontSize: 12 }}>{item.name}</Text>
     </View>
   )
 };
@@ -68,26 +94,53 @@ const renderCategoryList = ({item, index}) => {
 return (
 
   <ScrollView style={[styles.container]}>
-    <View style={{ paddingHorizontal: 50 }}>
-    <View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 30}}>
+    <View style={{ paddingHorizontal: 30 }}>
+    <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 40}}>
     <Image
         source={require('../assets/image/ServedLogo.png')}
         style={[styles.homeLogo]}
     />
     </View>
     <View style={{ justifyContent: 'center' }}>
-    <Text style={{ fontSize: 30, fontWeight: 900, color: Colors.black, paddingVertical: 5, }}>Hi Eason Lim,</Text>
-    <Text style={{ width: '60%', fontSize: 20, fontWeight: 700, color: Colors.black }}>What service are you looking for?</Text>
+    <Text style={{ fontSize: 24, fontWeight: '900', color: Colors.black, paddingVertical: 5, }}>Hi {userSelected.name}</Text>
+    <Text style={{ width: '80%', fontSize: 18, fontWeight: '700', color: Colors.black }}>What service are you looking for?</Text>
     </View>
     </View>
 
-    <View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 40}}>
+    <View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20}}>
       <FlatList
         numColumns={3}
-        data={categoryList}
+        data={ServiceCategory}
         renderItem={renderCategoryList}
         keyExtractor={(item, index) => index.toString()}
       />
+    {/* {categoryList.map((item, index) => {
+      return(
+        <View style={{ 
+          paddingHorizontal: 15, 
+          paddingVertical: 15, 
+          alignItems: 'center',
+          }}>
+        <TouchableOpacity
+          style={{ 
+            width: 85, 
+            height: 85,
+          }}
+          onPress={() => {
+            navigation.navigate('ServiceList')
+          }}>
+          <Image
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            source={{uri: item.image}}
+          />
+        </TouchableOpacity>
+        <Text>{item.name}</Text>
+        </View>
+      )
+    })} */}
     </View>
 
   </ScrollView>

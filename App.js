@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -19,18 +19,22 @@ import OrderListScreen from './src/screen/OrderListScreen';
 import ChatScreen from './src/screen/ChatScreen';
 import ChatMessageScreen from './src/screen/ChatMessageScreen';
 import ProfileScreen from './src/screen/ProfileScreen';
+import SellerServiceScreen from './src/screen/SellerServiceScreen';
+import AddServiceScreen from './src/screen/AddServiceScreen';
+import CustomerOrderScreen from './src/screen/CustomerOrderScreen'
 console.reportErrorsAsExceptions = false;
 //firebase//
 import firebase from 'firebase/app';
 import "firebase/auth";
-import firebaseConfig from './config/key';
+import firebaseConfig from './constants/key';
+import { CollectionFunc } from './util/CommonFunc'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const headerOption = {
   headerTitleAlign: 'center',
-  headerTintColor: Colors.black,
+  //headerTintColor: Colors.black,
   headerStyle: {
     backgroundColor: Colors.primaryColor,
   },
@@ -75,6 +79,9 @@ function ProfileStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name='Profile' component={ProfileScreen} options={ headerOption } />
+      <Stack.Screen name='SellerService' component={SellerServiceScreen} options={ headerOption } />
+      <Stack.Screen name='AddService' component={AddServiceScreen} options={ headerOption } />
+      <Stack.Screen name='CustomerOrder' component={CustomerOrderScreen} options={ headerOption } />
     </Stack.Navigator>
   );
 }
@@ -83,7 +90,6 @@ function ProfileStack() {
 export default function App() {
 
   const isLoggedIn = CommonStore.useState(s => s.isLoggedIn);
-
 
   //Checking if firebase has been initialized
   if (!firebase.apps.length) {
@@ -119,40 +125,40 @@ export default function App() {
               null
             ],
           tabBarStyle: {
-            height: 80,
+            height: 50,
             borderTopWidth: 0,
           },
           tabBarVisible: route.state ? route.state.index > 0 ? false : true : null,
           tabBarIcon: ({ focused, color, size }) => {
 
-            if (route.name === 'Main1') {
+            if (route.name === 'MainBot') {
               return (
-                <Ionicons name={'md-home-outline'} size={35} color={Colors.black}/>
+                <Ionicons name={'md-home-outline'} size={25} color={Colors.black}/>
               );
-            } else if (route.name === 'OrderList1') {
+            } else if (route.name === 'OrderListBot') {
               return (
-                <Ionicons name={'md-newspaper-outline'} size={35} color={Colors.black}/>
-              );
-            }
-            else if (route.name === 'Chat1') {
-              return (
-                <AntDesign name={'message1'} size={33} color={Colors.black}/>
+                <Ionicons name={'md-newspaper-outline'} size={25} color={Colors.black}/>
               );
             }
-            else if (route.name === 'Profile1') {
+            else if (route.name === 'ChatBot') {
               return (
-                <Ionicons name={'md-person-outline'} size={35} color={Colors.black}/>
+                <AntDesign name={'message1'} size={23} color={Colors.black}/>
+              );
+            }
+            else if (route.name === 'ProfileBot') {
+              return (
+                <Ionicons name={'md-person-outline'} size={25} color={Colors.black}/>
               );
             }
             // You can return any component that you like here!
-            return <Feather name={'home'} size={35} color={Colors.grey}/>;
+            return <Feather name={'home'} size={32} color={Colors.grey}/>;
           
           },
         })}>
-        <Tab.Screen name="Main1" component={HomeScreenStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="OrderList1" component={OrderListStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="Chat1" component={ChatStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="Profile1" component={ProfileStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="MainBot" component={HomeScreenStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="OrderListBot" component={OrderListStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="ChatBot" component={ChatStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="ProfileBot" component={ProfileStack} options={{ headerShown: false }}/>
       </Tab.Navigator>
       :
       <Stack.Navigator>

@@ -1,4 +1,4 @@
-import React, { Component, useReducer, useState, useEffect, useRef, useCallback } from 'react';
+import React, { Component, useReducer, useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -17,39 +17,12 @@ import {
 } from 'react-native';
 import Colors from "../constant/Colors";
 import Feather from 'react-native-vector-icons/Feather';
-import { CommonStore } from '../../store/CommonStore';
-import moment from 'moment';
-import { CollectionFunc } from '../../util/CommonFunc';
 
-
-const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
-
-const OrderListScreen = (props) => {
+const CustomerOrderScreen = (props) => {
 
 const { navigation, route } = props;
 
 navigation.setOptions({
-  headerLeft: () => (
-    <TouchableOpacity style={{
-    }} 
-    onPress={() => { props.navigation.goBack();
-    }}>
-      <View style={{
-        justifyContent: 'center',
-        paddingLeft: 0,
-      }}>
-        <Feather
-          name="arrow-left"
-          size={24}
-          color={Colors.black}
-          style={{
-          }}
-        />
-      </View>
-  </TouchableOpacity>
-  ),
   headerTitle: () => (
     <View style={{
       justifyContent: 'center',
@@ -60,47 +33,13 @@ navigation.setOptions({
           fontWeight: 'bold',
           color: Colors.black,
         }}>
-        Orders
+        Customer's Order
       </Text>
     </View>
   ),
 });
 
-const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => { 
-      CollectionFunc();
-      setRefreshing(false)
-    });
-  }, []);
-
-const [currCustomerOrder, setCurrCustomerOrder] = useState([]);
-
-
-useEffect(()=> {
-  
-  var tempCustomerOrder = [];
-
-  for(var x = 0; x < customerOrder.length; x++){
-    if(userSelected.id === customerOrder[x].customerID){
-      const orders = customerOrder[x]
-      tempCustomerOrder.push(orders);
-    }
-  }
-
-  setCurrCustomerOrder(tempCustomerOrder);
-  console.log(tempCustomerOrder)
-  
-},[customerOrder, userSelected])
-
-const userSelected = CommonStore.useState(s => s.userSelected);
-const serviceList = CommonStore.useState(s => s.serviceList);
-const customerOrder = CommonStore.useState(s => s.customerOrder);
-const selectedCustomerOrder = CommonStore.useState(s => s.selectedCustomerOrder);
-
-//Dummy data
 const [orderList, setOrderList] = useState([
   {
     name: 'Phone Damage',
@@ -131,8 +70,7 @@ const [orderList, setOrderList] = useState([
   },
 ]);
 
-const renderServiceList = ({ item, index }) => {
-
+const renderServiceList = ( item, index ) => {
   return(
     <View style={{ paddingHorizontal: 15, paddingVertical: 5, alignItems: 'center' }}>
     <TouchableOpacity
@@ -164,12 +102,12 @@ const renderServiceList = ({ item, index }) => {
                 width: 80,
                 height: 80,
               }}
-              source={{uri: item.serviceImg}}
+              source={{uri: item.image}}
             />
           </View>
           <View style={{ flex: 2, paddingLeft: 10, paddingRight: 10 }}>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ fontSize: 14, fontWeight: 'bold', width: '70%' }} numberOfLines={1}>{item.serviceName}</Text>
+              <Text style={{ fontSize: 14, fontWeight: 'bold', width: '70%' }} numberOfLines={1}>{item.name}</Text>
               <View style={{ paddingVertical: 0, width: '40%' }}>
               <Text style={{
                 backgroundColor: 
@@ -189,7 +127,7 @@ const renderServiceList = ({ item, index }) => {
             </View>
             <View style={{ flex: 3, paddingTop: 5 }}>
               <Text style={{ fontSize: 12, fontWeight: '600' }}>Description:</Text>
-              <Text style={{ fontSize: 11 }} numberOfLines={2}>{item.serviceDescription}</Text>
+              <Text style={{ fontSize: 11 }} numberOfLines={2}>{item.description}</Text>
             </View>
           </View>
         </View>
@@ -199,7 +137,7 @@ const renderServiceList = ({ item, index }) => {
         <Text style={{ 
           fontSize: 13,
           }}>
-            Order At: {moment(item.createdAt).format('DD/MM/YYYY hh:mm A')}
+            Order Date/Time: {item.orderAt}
         </Text>
       </View>
     </TouchableOpacity>
@@ -257,14 +195,87 @@ return (
         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Total Services: 3</Text>
     </View>
 
-    {/* <View style={{ justifyContent: 'center', alignItems: 'center', }}> */}
-      <FlatList
-        data={customerOrder}
+    <View style={{ justifyContent: 'center', alignItems: 'center'}}>
+      {/* <FlatList
+        data={orderList}
         renderItem={renderServiceList}
         keyExtractor={(item, index) => index.toString()}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      />
-    {/* </View> */}
+      /> */}
+      {orderList.map((item, index) => {
+        return(
+          <View style={{ paddingHorizontal: 15, paddingVertical: 5, alignItems: 'center' }}>
+          <TouchableOpacity
+            style={{ 
+              width: Dimensions.get('screen').width * 0.85,
+              height: 130,
+              paddingHorizontal: 15,
+              borderRadius: 20,
+              backgroundColor: Colors.white,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 3,
+            }}
+            onPress={() => {
+                
+            }}
+          >
+            <View style={{ flex: 3 }}>
+              <View style={{ flex: 1, flexDirection: 'row', paddingTop: 15 }}>
+                <View style={{ flex: 1 }}>
+                  <Image
+                    style={{
+                      borderRadius: 10,
+                      width: 80,
+                      height: 80,
+                    }}
+                    source={{uri: item.image}}
+                  />
+                </View>
+                <View style={{ flex: 2, paddingLeft: 10, paddingRight: 10 }}>
+                  <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold', width: '70%' }} numberOfLines={1}>{item.name}</Text>
+                    <View style={{ paddingVertical: 0, width: '40%' }}>
+                    <Text style={{
+                      backgroundColor: 
+                      item.status === 'completed' ? '#474747' 
+                      : item.status === 'pending' ? '#5032CB'
+                      : item.status === 'cancelled' ? '#BD1409'
+                      : item.status === 'in-progress' ? '#7F8201' : '#FFFFFF',
+                      paddingVertical: 2,
+                      borderRadius: 10,
+                      textAlign: 'center',
+                      fontSize: 8,
+                      color: Colors.white
+                    }}>
+                      {item.status}
+                    </Text>
+                    </View>
+                  </View>
+                  <View style={{ flex: 3, paddingTop: 5 }}>
+                    <Text style={{ fontSize: 12, fontWeight: '600' }}>Description:</Text>
+                    <Text style={{ fontSize: 11 }} numberOfLines={2}>{item.description}</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+      
+            <View style={{ flex: 0.8, paddingTop: 0, paddingLeft: 5  }}>
+              <Text style={{ 
+                fontSize: 13,
+                }}>
+                  Order Date/Time: {item.orderAt}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          </View>
+        );
+      })}
+    </View>
 
   </View>
 
@@ -313,4 +324,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderListScreen;
+export default CustomerOrderScreen;

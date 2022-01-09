@@ -31,11 +31,10 @@ navigation.setOptions({
     }}>
       <View style={{
         justifyContent: 'center',
-        paddingLeft: 5,
       }}>
         <Feather
           name="arrow-left"
-          size={45}
+          size={24}
           color={Colors.black}
           style={{
           }}
@@ -49,7 +48,7 @@ navigation.setOptions({
     }}>
       <Text
         style={{
-          fontSize: 30,
+          fontSize: 24,
           fontWeight: 'bold',
           color: Colors.black,
         }}>
@@ -87,14 +86,15 @@ const renderConversationList = ({item, index}) => {
           paddingHorizontal: 15,
           paddingVertical: 10,
           borderRadius: 20,
-          shadowColor: Colors.black,
-            shadowOffset: {
-            width: 2,
-            height: 2,
-            },
-          shadowOpacity: 0.3,
-          shadowRadius: 8,
-          elevation: 10,
+          backgroundColor: Colors.white,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
         }}
         onPress={() => {
             navigation.navigate('ChatMessage');
@@ -105,15 +105,15 @@ const renderConversationList = ({item, index}) => {
             <Image
               style={{
                 borderRadius: 80,
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
               }}
               source={{ uri: item.image }}
             />
           </View>
-          <View style={{ flex: 4 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
-            <Text style={{ fontSize: 14, fontWeight: '700', color: '#5F5F5F' }} numberOfLines={2}>{item.lastMessage}</Text>
+          <View style={{ flex: 3.5 }}>
+            <Text style={{ fontSize: 14, fontWeight: 'bold' }} numberOfLines={1}>{item.name}</Text>
+            <Text style={{ fontSize: 12, fontWeight: '700', color: '#5F5F5F' }} numberOfLines={2}>{item.lastMessage}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -124,7 +124,7 @@ const renderConversationList = ({item, index}) => {
 return (
 
 <ScrollView style={[styles.container]}>
-    <View style={{ paddingVertical: 30 }}>
+    <View style={{ paddingVertical: 20 }}>
     <View
         style={{
             width: 300,
@@ -148,18 +148,18 @@ return (
         <Feather
             name="search"
             size={18}
+            color={Colors.iconGrey}
             style={{marginLeft: 15}}
         />
         <TextInput
             style={{
             width: 220,
             fontSize: 15,
-            fontFamily: 'NunitoSans-Regular',
             paddingLeft: 10,
             height: 40,
             }}
             clearButtonMode="while-editing"
-            placeholder="Search your conversation"
+            placeholder="Search your conversations"
             //onChangeText={(text) => {
             //setSearch(text);
             //}}
