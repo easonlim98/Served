@@ -16,11 +16,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Colors from "../constant/Colors";
-import Feather from 'react-native-vector-icons/Feather';
 import { CommonStore } from '../../store/CommonStore';
 import { ServiceCategory } from '../../store/ServiceCategory';
-import ServiceListScreen from './ServiceListScreen';
-import { CollectionFunc } from '../../util/CommonFunc';
 
 
 const HomeScreen = props => {
@@ -115,33 +112,6 @@ return (
         renderItem={renderCategoryList}
         keyExtractor={(item, index) => index.toString()}
       />
-    {/* {categoryList.map((item, index) => {
-      return(
-        <View style={{ 
-          paddingHorizontal: 15, 
-          paddingVertical: 15, 
-          alignItems: 'center',
-          }}>
-        <TouchableOpacity
-          style={{ 
-            width: 85, 
-            height: 85,
-          }}
-          onPress={() => {
-            navigation.navigate('ServiceList')
-          }}>
-          <Image
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-            source={{uri: item.image}}
-          />
-        </TouchableOpacity>
-        <Text>{item.name}</Text>
-        </View>
-      )
-    })} */}
     </View>
 
   </ScrollView>

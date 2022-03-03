@@ -21,7 +21,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { CommonStore } from '../../store/CommonStore'
-import { createOrder } from '../../firebase-API/OrderAPI'
 import { CollectionFunc } from '../../util/CommonFunc';
 
 const ServiceDetailsScreen = props => {
@@ -62,46 +61,12 @@ const [serviceDetails, setServiceDetails] = useState(
   },
 );
 
-const createUrgentOrder = async () => {
-    var orderDetail = {
-      createdAt: Date.now(),
-      orderType: 'URGENT',
-      serviceID: serviceSelected.id,
-      customerID: userSelected.id,
-      status: 'pending',
-      totalPrice: serviceSelected.servicePrice,
-      estimateHour: serviceSelected.estimateHour,
-      serviceImg: serviceSelected.serviceImg,
-      serviceDescription: serviceSelected.serviceDescription,
-      serviceName: serviceSelected.serviceName
-    }
-    await createOrder(orderDetail)
-    console.log(orderDetail)
-    Alert.alert('Successfully Ordered')
-      setShowConfirmationUrg(false);
-      navigation.navigate('Main');
-      CollectionFunc();
+const createUrgentOrder = () => {
+    console.log('yeah created')
 }
 
-const createScheduleOrder = async () => {
-  var orderDetail = {
-    createdAt: Date.now(),
-    orderType: 'SCHEDULE',
-    serviceID: serviceSelected.id,
-    customerID: userSelected.id,
-    status: 'pending',
-    totalPrice: serviceSelected.servicePrice,
-    estimateHour: serviceSelected.estimateHour,
-    serviceImg: serviceSelected.serviceImg,
-    serviceDescription: serviceSelected.serviceDescription,
-    serviceName: serviceSelected.serviceName
-  }
-  await createOrder(orderDetail)
-  console.log(orderDetail)
-  Alert.alert('Successfully Ordered')
-    setShowConfirmationSch(false);
-    navigation.navigate('Main');
-    CollectionFunc();
+const createScheduleOrder = () => {
+    console.log('created yeah')
 }
 
 return (

@@ -15,19 +15,11 @@ import LoginScreen from './src/screen/LoginScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import ServiceListScreen from './src/screen/ServiceListScreen';
 import ServiceDetailsScreen from './src/screen/ServiceDetailsScreen';
-import OrderListScreen from './src/screen/OrderListScreen';
-import ChatScreen from './src/screen/ChatScreen';
-import ChatMessageScreen from './src/screen/ChatMessageScreen';
-import ProfileScreen from './src/screen/ProfileScreen';
-import SellerServiceScreen from './src/screen/SellerServiceScreen';
-import AddServiceScreen from './src/screen/AddServiceScreen';
-import CustomerOrderScreen from './src/screen/CustomerOrderScreen'
 console.reportErrorsAsExceptions = false;
 //firebase//
 import firebase from 'firebase/app';
 import "firebase/auth";
 import firebaseConfig from './constants/key';
-import { CollectionFunc } from './util/CommonFunc'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,41 +50,13 @@ function HomeScreenStack() {
   );
 }
 
-function OrderListStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name='OrderList' component={OrderListScreen} options={ headerOption } />
-    </Stack.Navigator>
-  );
-}
-
-function ChatStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name='Chat' component={ChatScreen} options={ headerOption } />
-      <Stack.Screen name='ChatMessage' component={ChatMessageScreen} options={ headerOption } />
-    </Stack.Navigator>
-  );
-}
-
-function ProfileStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name='Profile' component={ProfileScreen} options={ headerOption } />
-      <Stack.Screen name='SellerService' component={SellerServiceScreen} options={ headerOption } />
-      <Stack.Screen name='AddService' component={AddServiceScreen} options={ headerOption } />
-      <Stack.Screen name='CustomerOrder' component={CustomerOrderScreen} options={ headerOption } />
-    </Stack.Navigator>
-  );
-}
-
 
 export default function App() {
 
   const isLoggedIn = CommonStore.useState(s => s.isLoggedIn);
 
   useEffect(()=> {
-    CollectionFunc();
+    //CollectionFunc();
   },[])
 
   //Checking if firebase has been initialized
@@ -160,9 +124,6 @@ export default function App() {
           },
         })}>
         <Tab.Screen name="MainBot" component={HomeScreenStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="OrderListBot" component={OrderListStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="ChatBot" component={ChatStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="ProfileBot" component={ProfileStack} options={{ headerShown: false }}/>
       </Tab.Navigator>
       :
       <Stack.Navigator>
